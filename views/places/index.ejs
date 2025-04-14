@@ -1,0 +1,31 @@
+<% layout('layouts/app') %>
+
+<h1 class="mb-4">All the Places you can visit in Depok City</h1>
+<div class="row">
+  <% places.forEach(place => { %>
+  <div class="col-md-4 d-flex mb-4">
+    <div class="card h-100 d-flex flex-column">
+      <img class="card-img-top" src="<%= place.image %>" alt="Card image cap" />
+      <div class="card-body d-flex flex-column shadow-lg justify-content-between">
+        <div>
+          <h5 class="card-title"><%= place.title %></h5>
+          <p class="card-description flex-grow-1"><%= place.description %></p>
+          <p class="class-description">
+            <small class="text-secondary"><%= place.location %></small>
+          </p>
+        </div>
+        <a href="/places/<%= place._id %>" class="btn btn-primary mt-3">View <%= place.title %></a>
+      </div>
+    </div>
+  </div>
+  <% }) %>
+</div>
+
+<a href="/places/add" class="btn btn-secondary">Add Place</a>
+
+<footer class="footer bg-dark text-light text-center">
+  <div class="footer-text">
+    <p>Rate The Place - 2025</p>
+  </div>
+
+</footer>
