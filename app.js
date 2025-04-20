@@ -12,6 +12,9 @@ const app = express();
 const Place = require("./models/place");
 const { error } = require("console");
 
+// Schemas
+const { placeSchema } = require("./schemas/place");
+
 mongoose
   .connect("mongodb://127.0.0.1/rate-the-place")
   .then((result) => {
@@ -28,6 +31,17 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+
+// Validate Place Middleware
+const validatePlace = (req, res, next) => {
+  const { error } = placeSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    return next(new ErrorHandler(msg, 400));
+  } else {
+    next();
+  }
+};
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -47,17 +61,8 @@ app.get("/places/add", (req, res) => {
 
 app.post(
   "/places",
+  validatePlace,
   wrapAsync(async (req, res, next) => {
-    const placeSchema = Joi.object({
-      place: Joi.object({
-        title: Joi.string().required(),
-        description: Joi.string().required(),
-        location: Joi.string().required(),
-        price: Joi.number().min(0).required(),
-        image: Joi.string().required(),
-      }).required(),
-    });
-
     const { error } = placeSchema.validate(req.body);
     if (error) {
       console.log(error);
@@ -96,6 +101,7 @@ app.get(
 
 app.put(
   "/places/:id",
+  validatePlace,
   wrapAsync(async (req, res) => {
     await Place.findByIdAndUpdate(req.params.id, { ...req.body.place });
     res.redirect("/places");
