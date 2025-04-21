@@ -18,6 +18,37 @@
       <a class="btn btn-warning" href="/places/<%= place.id %>/edit">Edit</a>
       <a class="btn btn-primary" href="/places">All Places</a>
     </div>
-    </div>
   </div>
+</div>
+
+<div class="row justify-content-center">
+  <h3>Leave a Rating!</h3>
+  <form action="">
+    <div class="mb-3 col-6">
+      <label for="rating" class="form-label">Rating</label>
+      <input
+        type="range"
+        class="form-range"
+        name="review[rating]"
+        id="rating"
+        min="1"
+        max="5"
+        style="width: 85vw"
+      />
+    </div>
+    <div class="mb-3 col-6">
+      <label for="review" class="form-label">Review</label>
+      <textarea
+        class="form-control"
+        name="review[review]"
+        id="review"
+        rows="3"
+        style="width: 85vw"
+      ></textarea>
+    </div>
+    <div class="row mb-3 justify-content-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </div>
+  </form>
 </div>
