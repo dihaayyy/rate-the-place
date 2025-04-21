@@ -7,6 +7,12 @@ const placeSchema = new Schema({
   description: String,
   location: String,
   image: String,
+  review: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Place", placeSchema);
